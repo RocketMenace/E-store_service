@@ -12,6 +12,7 @@ fastapi = {extras = ["standard"], version = "^0.115.6"}
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.9.1"
+isort = "^5.13.2"
 
 [build-system]
 requires = ["poetry-core"]
