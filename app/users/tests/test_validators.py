@@ -1,5 +1,6 @@
-from app.users.validators import phone_number_validator
 from pytest import raises
+
+from app.users.validators import phone_number_validator
 
 
 def test_phone_number_validation():
