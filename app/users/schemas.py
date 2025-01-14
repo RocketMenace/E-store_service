@@ -1,6 +1,8 @@
-from pydantic import BaseModel, Field, field_validator, EmailStr
-from app.users.validators import CheckPhone
 from re import compile
+
+from pydantic import BaseModel, EmailStr, Field, model_validator
+
+from app.users.validators import CheckPhone
 
 
 class UserBase(BaseModel):
@@ -14,8 +16,9 @@ class UserBase(BaseModel):
 class UserIn(UserBase):
     password: str
     password_repeat: str
+    is_admin: bool = Field(default=False)
 
-    @field_validator("password", "password_repeat", mode="after")
+    @model_validator(mode="after")
     def valid_password(self) -> str:
         password_pattern = compile(
             r"^(?=.*[A-Z])(?=.*[$%&!:])(?=[a-zA-Z]*$)(?=.{8,}).*$"
@@ -24,7 +27,7 @@ class UserIn(UserBase):
             raise ValueError(
                 "Пароль должен содержать"
                 "не менее 8 символов"
-                "только латиница"
+                "только латинcкие буквы"
                 "минимум 1 символ верхнего регистра"
                 "минимум 1 спец символ '$%&!:'"
             )

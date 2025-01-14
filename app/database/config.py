@@ -1,11 +1,13 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class BaseConfig(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="allow")
+    model_config = SettingsConfigDict(
+        env_file=".env", env_file_encoding="utf-8", extra="allow"
+    )
     ENV_STATE: str | None = None
-
 
 
 class GlobalConfig(BaseConfig):
@@ -20,7 +22,6 @@ class DevConfig(GlobalConfig):
     POSTGRES_SERVER: str
     POSTGRES_PORT: str
     POSTGRES_DB: str
-
 
 
 class TestConfig(GlobalConfig):
