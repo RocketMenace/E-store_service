@@ -10,4 +10,5 @@ auth_router = APIRouter()
     path="/register", status_code=status.HTTP_201_CREATED, response_model=User
 )
 async def register_user(request: UserIn):
-    pass
+    user = await create_user(request)
+    return user
