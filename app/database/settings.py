@@ -7,5 +7,4 @@ config.DATABASE_URL = f"postgresql://{config.POSTGRES_USER}:{config.POSTGRES_PAS
 
 metadata = MetaData()
 engine = create_engine(config.DATABASE_URL, echo=True)
-metadata.create_all(engine)
 database = Database(config.DATABASE_URL, force_rollback=config.DB_FORCE_ROLL_BACK)
