@@ -12,5 +12,5 @@ users_table = Table(
     Column("email", String, nullable=False, unique=True),
     Column("phone", String, nullable=False, unique=True),
     Column("password", String, nullable=False),
-    Column("is_admin", Boolean, default=False, nullable=False),
+    Column("is_admin", Boolean, default=False, nullable=True),
 )

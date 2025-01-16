@@ -29,6 +29,8 @@ class TestConfig(GlobalConfig):
     DB_FORCE_ROLL_BACK: bool = True
 
 
+
+
 @lru_cache()
 def get_config(env_state: str):
     configs = {"dev": DevConfig, "test": TestConfig}
