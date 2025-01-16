@@ -10,6 +10,10 @@ class UserBase(BaseModel):
     email: EmailStr
     phone: CheckPhone
 
+class AuthUser(BaseModel):
+    email: EmailStr
+    password: str
+
 
 class UserIn(UserBase):
     password: CheckPasswordPattern

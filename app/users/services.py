@@ -1,6 +1,5 @@
 from typing import Any
 
-from sqlalchemy import insert
 
 from app.auth.security import hash_password
 from app.database.settings import database
@@ -10,7 +9,7 @@ from app.users.schemas import UserIn
 
 async def create_user(request: UserIn) -> dict[str, Any] | None:
     query = (
-        insert(users_table)
+        users_table.insert()
         .values(
             {
                 "first_name": request.first_name,
@@ -19,6 +18,7 @@ async def create_user(request: UserIn) -> dict[str, Any] | None:
                 "email": request.email,
                 "phone": request.phone,
                 "password": hash_password(request.password),
+                "is_admin": request.is_admin,
             }
         )
         .returning(users_table)
