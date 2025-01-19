@@ -13,6 +13,7 @@ class UserBase(BaseModel):
 class AuthUser(BaseModel):
     email: EmailStr
     password: str
+    is_admin: bool
 
 
 class UserIn(UserBase):

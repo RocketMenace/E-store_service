@@ -14,5 +14,8 @@ class InvalidCredentials(NotAuthenticated):
 class TokenExpired(NotAuthenticated):
     DETAIL = ErrorCode.TOKEN_EXPIRED
 
+class InvalidToken(NotAuthenticated):
+    DETAIL = ErrorCode.INVALID_TOKEN
+
    
 
