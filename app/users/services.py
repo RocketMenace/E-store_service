@@ -1,6 +1,5 @@
 from typing import Any
 
-
 from app.auth.security import hash_password
 from app.database.settings import database
 from app.users.models import users_table
@@ -18,7 +17,7 @@ async def create_user(request: UserIn) -> dict[str, Any] | None:
                 "email": request.email,
                 "phone": request.phone,
                 "password": hash_password(request.password),
-                "is_admin": request.is_admin,
+                # "is_admin": request.is_admin,
             }
         )
         .returning(users_table)

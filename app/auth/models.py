@@ -1,13 +1,5 @@
-from sqlalchemy import (
-    Column,
-    DateTime,
-    ForeignKey,
-    Identity,
-    Integer,
-    String,
-    Table,
-    func,
-)
+from sqlalchemy import (Column, DateTime, ForeignKey, Identity, Integer,
+                        String, Table, func)
 
 from app.database.settings import metadata
 
