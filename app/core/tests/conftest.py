@@ -1,13 +1,14 @@
-from typing import Generator, AsyncGenerator
-from fastapi.testclient import TestClient
+from typing import AsyncGenerator, Generator
 
 import pytest
+from fastapi.testclient import TestClient
 from httpx import AsyncClient
 
+from app.auth.models import tokens
 from app.database.settings import database
 from app.main import app
 from app.users.models import users_table
-from app.auth.models import tokens
+
 
 @pytest.fixture(scope="session")
 def anyio_backend():

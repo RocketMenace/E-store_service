@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, model_validator
 
 from app.users.validators import CheckPasswordPattern, CheckPhone
@@ -10,16 +12,16 @@ class UserBase(BaseModel):
     email: EmailStr
     phone: CheckPhone
 
+
 class AuthUser(BaseModel):
-    email: EmailStr
+    email: str
     password: str
-    is_admin: bool
 
 
 class UserIn(UserBase):
     password: CheckPasswordPattern
     password_repeat: str
-    is_admin: bool = Field(default=False)
+    # is_admin: bool
 
     @model_validator(mode="after")
     def check_password_match(self):
