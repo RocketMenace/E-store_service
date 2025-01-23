@@ -11,7 +11,7 @@ class ProductBase(BaseModel):
 
 class ProductIn(ProductBase):
     name: str
-    price: int
+    price: float
     is_active: bool
 
 

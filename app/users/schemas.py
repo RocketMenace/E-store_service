@@ -14,7 +14,7 @@ class UserBase(BaseModel):
 
 
 class AuthUser(BaseModel):
-    email: EmailStr
+    email: str
     password: str
 
 

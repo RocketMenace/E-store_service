@@ -19,3 +19,11 @@ class TokenExpired(NotAuthenticated):
 
 class InvalidToken(NotAuthenticated):
     DETAIL = ErrorCode.INVALID_TOKEN
+
+
+class AuthRequired(NotAuthenticated):
+    DETAIL = ErrorCode.AUTHENTICATION_REQUIRED
+
+
+class AuthorizationFailed(NotAuthenticated):
+    DETAIL = ErrorCode.AUTHORIZATION_FAILED

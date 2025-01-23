@@ -13,5 +13,5 @@ auth_router = APIRouter()
 )
 async def login(request: AuthUser):
     user = await authenticate_user(request)
-    access_token = create_access_token(request)
+    access_token = create_access_token(user)
     return TokenResponse(access_token=access_token)

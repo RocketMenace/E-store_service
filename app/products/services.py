@@ -1,9 +1,11 @@
 from datetime import datetime, timezone
 from typing import Any
 
+from watchfiles import awatch
+
 from app.database.settings import database
 from app.products.models import products_table
-from app.products.schemas import ProductIn
+from app.products.schemas import ProductIn, Product
 
 
 async def create_product(request: ProductIn) -> dict[str, Any]:
@@ -29,7 +31,7 @@ async def remove_product(product_id: int):
 async def edit_product(product_id: int, request: ProductIn):
     query = (
         products_table.update()
-        .where(products_table.c.id == product_id)
+        .where(products_table.c.id == product_id) # request.id
         .values(
             {
                 "name": request.name,
@@ -39,4 +41,9 @@ async def edit_product(product_id: int, request: ProductIn):
             }
         )
     ).returning(products_table)
+    return await database.fetch_one(query)
+
+
+async def get_product(product_id: int) -> Product:
+    query = products_table.select().where(products_table.c.id == product_id)
     return await database.fetch_one(query)

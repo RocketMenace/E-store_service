@@ -22,6 +22,7 @@ class DevConfig(GlobalConfig):
     POSTGRES_SERVER: str
     POSTGRES_PORT: str
     POSTGRES_DB: str
+    ADMIN_PASSWORD: str
 
 
 class TestConfig(GlobalConfig):

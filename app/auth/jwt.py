@@ -1,13 +1,14 @@
 from datetime import datetime, timedelta, timezone
-from typing import Annotated
+from typing import Annotated, Any
 
 import jwt
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 
 from app.auth.config import auth_config
-from app.auth.exceptions import InvalidToken
+from app.auth.exceptions import AuthorizationFailed, AuthRequired, InvalidToken
 from app.auth.schemas import TokenData
+from app.auth.services import check_user_is_admin
 from app.users.schemas import AuthUser
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
@@ -17,17 +18,19 @@ ALGORITHM = auth_config.JWT_ALGORITHM
 JWT_EXPIRED = auth_config.JWT_EXPIRED
 
 
-def create_access_token(request: AuthUser):
+def create_access_token(user: dict[str, Any]):
     expire_delta = timedelta(minutes=JWT_EXPIRED)
     jwt_data = {
-        "sub": request.email,
+        "sub": user["email"],
         "exp": datetime.now(tz=timezone.utc) + expire_delta,
-        "is_admin": request.is_admin,
+        "is_admin": check_user_is_admin(user),
     }
     return jwt.encode(jwt_data, key=SECRET_KEY, algorithm=ALGORITHM)
 
 
-def decode_token(token: Annotated[str, Depends(oauth2_scheme)]) -> TokenData:
+async def decode_token(
+    token: Annotated[str, Depends(oauth2_scheme)],
+) -> TokenData | None:
     if not token:
         return None
     try:
@@ -36,4 +39,22 @@ def decode_token(token: Annotated[str, Depends(oauth2_scheme)]) -> TokenData:
         )
     except jwt.PyJWTError:
         raise InvalidToken()
-    return TokenData(**payload)
+    return TokenData(**payload, type="bearer")
+
+
+async def check_user_jwt(token: Annotated[TokenData | None, Depends(decode_token)]):
+    if not token:
+        raise AuthRequired()
+    return token
+
+
+async def check_is_admin(token: Annotated[TokenData, Depends(check_user_jwt)]):
+    if not token.is_admin:
+        raise AuthorizationFailed()
+    return token
+
+
+async def check_admin_access(token: Annotated[TokenData, Depends(check_is_admin)]):
+    if token and token.is_admin:
+        return
+    raise AuthorizationFailed()

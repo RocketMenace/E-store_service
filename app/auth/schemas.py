@@ -1,8 +1,9 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 
 class TokenData(BaseModel):
-    email: EmailStr
+    type: str
+    email: str = Field(alias="sub")
     is_admin: bool
 
 
