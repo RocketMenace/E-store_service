@@ -8,6 +8,7 @@ from app.users.schemas import UserIn
 
 
 async def is_email_taken(request: UserIn) -> UserIn:
+    """Check user's email is available."""
     if await get_user_by_email(request.email):
         raise EmailTaken()
     return request

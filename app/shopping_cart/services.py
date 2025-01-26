@@ -4,6 +4,8 @@ from app.shopping_cart.models import carts_table, product_shopping_carts_table
 from app.shopping_cart.schemas import Cart
 from app.database.settings import database
 from app.products.schemas import Product
+from app.products.models import products_table
+from sqlalchemy import func
 
 
 async def get_user_cart(user_id: int) -> int:
@@ -11,28 +13,54 @@ async def get_user_cart(user_id: int) -> int:
     cart = await database.execute(query)
     return cart
 
-async def cart_add_product(product_id: int, quantity: int, cart_id: int) -> dict[str, Any]:
-    query = product_shopping_carts_table.insert().values(
-        {"cart_id": cart_id, "product_id": product_id, "quantity": quantity}
-    ).returning(product_shopping_carts_table)
-    # values =
+
+async def cart_add_product(
+    product_id: int, quantity: int, cart_id: int
+) -> dict[str, Any]:
+    product_price = await database.execute(
+        f"SELECT price FROM products WHERE id = {product_id}"
+    )
+    query = (
+        product_shopping_carts_table.insert()
+        .values(
+            {
+                "cart_id": cart_id,
+                "product_id": product_id,
+                "quantity": quantity,
+                "total_price": product_price * quantity,
+            }
+        )
+        .returning(product_shopping_carts_table)
+    )
     return await database.fetch_one(query)
 
-def cart_get_total_price(quantity: int, price: float) -> float:
-    return quantity * price
 
-async def cart_show_products():
-    ...
+async def cart_get_total_price(cart_id: int):
+    query = await database.execute(
+        f"SELECT SUM(total_price) FROM product_shopping_carts WHERE cart_id = {cart_id}"
+    )
+    return query
 
-async def cart_delete_product():
-    ...
 
-async def cart_clear():
-    ...
+async def cart_show_products(): ...
+
+
+async def cart_delete_product(cart_id: int, product_id: int):
+    query = product_shopping_carts_table.delete().where(
+        product_shopping_carts_table.c.cart_id == cart_id,
+        product_shopping_carts_table.c.product_id == product_id,
+    )
+    await database.execute(query)
+
+
+async def cart_clear(cart_id: int):
+    query = product_shopping_carts_table.delete().where(
+        product_shopping_carts_table.c.cart_id == cart_id
+    )
+    await database.execute(query)
 
 
 async def create_shopping_cart(user_id: int) -> None:
     query = carts_table.insert()
     values = {"owner": user_id}
     await database.execute(query, values)
-

@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Integer, Column, Identity, ForeignKey
+from sqlalchemy import Table, Integer, Column, Identity, ForeignKey, DECIMAL
 from app.database.settings import metadata
 
 carts_table = Table(
@@ -20,4 +20,5 @@ product_shopping_carts_table = Table(
     ),
     Column("product_id", ForeignKey("products.id", ondelete="CASCADE"), nullable=False),
     Column("quantity", Integer),
+    Column("total_price", DECIMAL, nullable=False),
 )
