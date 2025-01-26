@@ -6,8 +6,8 @@ from app.auth.router import auth_router
 from app.database.services import create_admin, fill_roles_table
 from app.database.settings import database, engine, metadata
 from app.products.router import products_router
-from app.users.router import users_router
 from app.shopping_cart.router import shopping_cart_router
+from app.users.router import users_router
 
 
 @asynccontextmanager

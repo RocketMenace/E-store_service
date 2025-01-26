@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Identity, Integer, String, Table
+from sqlalchemy import Column, ForeignKey, Identity, Integer, String, Table
 
 from app.database.settings import metadata
 

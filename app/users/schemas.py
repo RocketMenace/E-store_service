@@ -1,6 +1,4 @@
-from typing import Annotated
-
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, model_validator
+from pydantic import BaseModel, ConfigDict, model_validator
 
 from app.users.validators import CheckPasswordPattern, CheckPhone
 

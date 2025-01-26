@@ -1,11 +1,7 @@
-from datetime import datetime, timezone
-
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 
 
 class ProductBase(BaseModel):
-    # created_at: datetime
-    # updated_at: datetime
     pass
 
 

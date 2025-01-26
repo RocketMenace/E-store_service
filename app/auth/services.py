@@ -1,6 +1,4 @@
-from typing import Any, Annotated
-
-from pydantic import EmailStr
+from typing import Any
 
 from app.auth.exceptions import InvalidCredentials
 from app.auth.security import check_password
