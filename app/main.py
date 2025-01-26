@@ -25,6 +25,4 @@ app = FastAPI(lifespan=lifespan, root_path="/api/v1")
 app.include_router(users_router, prefix="/users", tags=["users"])
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
 app.include_router(products_router, prefix="/products", tags=["products"])
-app.include_router(
-    shopping_cart_router, prefix="/shopping", tags=["shopping"]
-)
+app.include_router(shopping_cart_router, prefix="/shopping", tags=["shopping"])
