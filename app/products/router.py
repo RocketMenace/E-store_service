@@ -1,10 +1,15 @@
 from fastapi import APIRouter, Depends, status
+from watchfiles import awatch
 
-from app.auth.jwt import check_admin_access
+from app.auth.jwt import check_admin_access, check_user_jwt
 from app.products.schemas import Product, ProductIn
-from app.products.services import create_product, edit_product, remove_product
+from app.products.services import create_product, edit_product, remove_product, retrieve_products
 
 products_router = APIRouter()
+
+@products_router.get(path="", status_code=status.HTTP_200_OK, response_model=list[Product], dependencies=[Depends(check_user_jwt)])
+async def get_products():
+    return await retrieve_products()
 
 
 @products_router.post(
@@ -33,7 +38,7 @@ async def add_product(request: ProductIn):
     status_code=status.HTTP_200_OK,
     dependencies=[Depends(check_admin_access)],
     summary="Updates product data.",
-    response_description="On successful update operation, the API will respond with a 200 status code and the details of the updated product in JSON format."
+    response_description="On successful update operation, the API will respond with a 200 status code and the details of the updated product in JSON format.",
 )
 async def update_product(product_id: int, request: ProductIn):
     """
@@ -53,7 +58,7 @@ async def update_product(product_id: int, request: ProductIn):
     status_code=status.HTTP_204_NO_CONTENT,
     dependencies=[Depends(check_admin_access)],
     summary="Delete product from database.",
-    response_description="On successful delete operation, the API will respond with a 204 status code"
+    response_description="On successful delete operation, the API will respond with a 204 status code",
 )
 async def delete_product(product_id: int):
     """

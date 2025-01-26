@@ -1,11 +1,7 @@
 from typing import Any
 
-from app.shopping_cart.models import carts_table, product_shopping_carts_table
-from app.shopping_cart.schemas import Cart
 from app.database.settings import database
-from app.products.schemas import Product
-from app.products.models import products_table
-from sqlalchemy import func
+from app.shopping_cart.models import carts_table, product_shopping_carts_table
 
 
 async def get_user_cart(user_id: int) -> int:
@@ -40,9 +36,6 @@ async def cart_get_total_price(cart_id: int):
         f"SELECT SUM(total_price) FROM product_shopping_carts WHERE cart_id = {cart_id}"
     )
     return query
-
-
-async def cart_show_products(): ...
 
 
 async def cart_delete_product(cart_id: int, product_id: int):

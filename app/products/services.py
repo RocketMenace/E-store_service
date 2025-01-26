@@ -1,11 +1,13 @@
 from datetime import datetime, timezone
 from typing import Any
 
-from watchfiles import awatch
-
 from app.database.settings import database
 from app.products.models import products_table
-from app.products.schemas import ProductIn, Product
+from app.products.schemas import Product, ProductIn
+
+async def retrieve_products() -> list[Product]:
+    query = products_table.select().where(products_table.c.is_active == True)
+    return await database.fetch_all(query)
 
 
 async def create_product(request: ProductIn) -> dict[str, Any]:

@@ -1,9 +1,8 @@
-from app.products.schemas import Product
 from pydantic import BaseModel, ConfigDict
 
+from app.products.schemas import Product
 
-# class CartIn(BaseModel):
-#     products: list[Product]
+
 
 
 class Cart(BaseModel):

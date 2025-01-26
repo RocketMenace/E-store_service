@@ -9,7 +9,6 @@ from app.auth.config import auth_config
 from app.auth.exceptions import AuthorizationFailed, AuthRequired, InvalidToken
 from app.auth.schemas import TokenData
 from app.auth.services import check_user_is_admin
-from app.users.schemas import AuthUser
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 

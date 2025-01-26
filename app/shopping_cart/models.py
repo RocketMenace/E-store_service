@@ -1,4 +1,5 @@
-from sqlalchemy import Table, Integer, Column, Identity, ForeignKey, DECIMAL
+from sqlalchemy import DECIMAL, Column, ForeignKey, Identity, Integer, Table
+
 from app.database.settings import metadata
 
 carts_table = Table(
