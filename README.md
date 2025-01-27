@@ -33,7 +33,7 @@
 - Клонируйте репозиторий:
 
 ```bash
-   git clone https://github.com/RocketMenace/Homework-24.1.git
+   git clone https://github.com/RocketMenace/E-store_service.git
 ```
 
 - Настройте базу данных PostgreSQL:
