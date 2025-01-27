@@ -17,8 +17,7 @@ async def cart_add_product(
         f"SELECT price FROM products WHERE id = {product_id}"
     )
     query = (
-        product_shopping_carts_table.insert()
-        .values(
+        product_shopping_carts_table.insert().values(
             {
                 "cart_id": cart_id,
                 "product_id": product_id,
@@ -26,8 +25,9 @@ async def cart_add_product(
                 "total_price": product_price * quantity,
             }
         )
-        .returning(product_shopping_carts_table)
+        # .returning(product_shopping_carts_table)
     )
+    await database.execute(query)
     return await database.fetch_one(query)
 
 

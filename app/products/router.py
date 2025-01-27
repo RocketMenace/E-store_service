@@ -3,11 +3,22 @@ from watchfiles import awatch
 
 from app.auth.jwt import check_admin_access, check_user_jwt
 from app.products.schemas import Product, ProductIn
-from app.products.services import create_product, edit_product, remove_product, retrieve_products
+from app.products.services import (
+    create_product,
+    edit_product,
+    remove_product,
+    retrieve_products,
+)
 
 products_router = APIRouter()
 
-@products_router.get(path="", status_code=status.HTTP_200_OK, response_model=list[Product], dependencies=[Depends(check_user_jwt)])
+
+@products_router.get(
+    path="",
+    status_code=status.HTTP_200_OK,
+    response_model=list[Product],
+    dependencies=[Depends(check_user_jwt)],
+)
 async def get_products():
     return await retrieve_products()
 

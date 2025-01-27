@@ -26,8 +26,20 @@ class DevConfig(GlobalConfig):
 
 
 class TestConfig(GlobalConfig):
-    model_config = SettingsConfigDict(env_prefix="TEST_")
+    model_config = SettingsConfigDict(
+        env_prefix="TEST_",
+        env_file_encoding="utf-8",
+        extra="allow",
+    )
+
     DB_FORCE_ROLL_BACK: bool = True
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_SERVER: str
+    POSTGRES_PORT: str
+    POSTGRES_DB: str
+    ADMIN_PASSWORD: str
+    DATABASE_URL: str | None = None
 
 
 @lru_cache()
